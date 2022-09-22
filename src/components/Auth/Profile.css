@@ -1,0 +1,19 @@
+.profileBox:hover .overlay{
+    display: block;
+    transform: scale(0.5);
+    opacity: 1;
+    transition: all 2s;
+}
+.profileBox:hover .profileCamBox{
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: all 2s;
+    cursor: pointer;
+}
+.overlay{
+    /* display: none; */
+    opacity: 0;
+    width: 100%;
+    color: rgb(187, 187, 187);
+    transform: scale(1);
+    transition: all 2s;
+}
