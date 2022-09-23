@@ -1,12 +1,13 @@
-import {Center } from "@chakra-ui/react";
+import {Flex } from "@chakra-ui/react";
 import "./App.css";
-import { Register } from "./Pages/Register";
+import { Router } from "./Router";
 
 function App() {
+  
   return (
-    <Center position={"relative"} w={"100%"} minH="100vh" >
-       <Register />
-    </Center>
+    <Flex position={"relative"} w={"100%"} minH="100vh" justifyContent="center" alignItems={["flex-start","Center"]} >
+       <Router/>
+    </Flex>
   );
 }
 

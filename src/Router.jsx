@@ -1,23 +1,29 @@
-import { Navigate, Route, Routes } from "react-router-dom"
-import { Client } from "./Pages/Clients"
-import { Home } from "./Pages/Home";
-import { ManageContact} from "./Pages/ManageContact";
-import { AddClient } from "./Pages/AddClient"
-import { Login } from "./Pages/Login";
+import { useSelector } from 'react-redux'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { Home } from './Pages/Home'
+import { Login } from './Pages/Login'
+import { Register } from './Pages/Register'
 
-const PrivateRoute = ({token}, children)=>{
-    return token?children:<Navigate to= "/login"/>
+const PrivateRoute = ({ token, children }) => {
+    console.log(token, children)
+  return token ? children : <Navigate to="/login" />
 }
 
-export const Router = () =>{
-    const token = localStorage.getItem('anmol_t');
-    return (
-        <Routes>
-        <Route path="/" element={<PrivateRoute token={token}><Home /></PrivateRoute>}/>
-        <Route path="/manage-contact" element={<ManageContact/>} />
-        <Route path="/add-client/:id" element={<AddClient/>}/>
-        <Route path="/clients" element={<Client/>}/>
-        <Route path="/login" element={<Login/>} />
-      </Routes>
-    )
+export const Router = () => {
+  const  token  = useSelector(state=>state.authReducer.token);
+
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <PrivateRoute token={token}>
+            <Home />
+          </PrivateRoute>
+        }
+      />
+      <Route path="/login" element={token?<Navigate to="/"/>:<Login />} />
+      <Route path="/register" element={token?<Navigate to="/"/>:<Register />} />
+    </Routes>
+  )
 }
