@@ -7,7 +7,7 @@ export const setChat = payload => ({type:CHAT, payload});
 export const setContacts = payload => ({type:SET_CONTACTS, payload});
 
 export const getContacts = ({token})=>(dispatch)=>{
-    axios.post('http://localhost:5000/min',{}, {
+    axios.post('https://chatbot-na.herokuapp.com/min',{}, {
         headers: {
           Authorization: `Bearer ${token}`,
         }
@@ -15,7 +15,7 @@ export const getContacts = ({token})=>(dispatch)=>{
 }
 
 export const postChat = ({input, id, token})=>(dispatch)=>{
-  // axios.post('http://localhost:5000/chats',{input, id}, {
+  // axios.post('https://chatbot-na.herokuapp.com/chats',{input, id}, {
   //       headers: {
   //         Authorization: `Bearer ${token}`,
   //       }
@@ -23,7 +23,7 @@ export const postChat = ({input, id, token})=>(dispatch)=>{
 }
 
 export const getParticularChat = ({id,token})=>(dispatch)=>{
-  axios.post('http://localhost:5000/chats',{id:id}, {
+  axios.post('https://chatbot-na.herokuapp.com/chats',{id:id}, {
         headers: {
           Authorization: `Bearer ${token}`,
         }

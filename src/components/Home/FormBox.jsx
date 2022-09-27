@@ -14,7 +14,6 @@ export const FormBox = ({ socket }) => {
       socket.emit('responce me', {option, chatId:'63318232de6272d98904af80', id:userData.id})
       socket.on('63318232de6272d98904af80', (data) => dispatch(setChat(data)));
     } else {
-      console.log(userData.id)
       let chatId =
         chat[chat.length - 1]?.ans[option - 1]?.id || '93318232de6272d98904af80'
       socket.emit('responce me', {option,chatId, id:userData.id})
