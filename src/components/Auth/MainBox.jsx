@@ -3,12 +3,13 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { loginUser, registerUser } from '../../Redux/Auth/action'
+import { BTN } from './BTN'
 
 export const MainBox = ({ children, title }) => {
   const navigate = useNavigate();
   const toast = useToast()
   const dispatch = useDispatch()
-  const { languages, token } = useSelector((state) => state.authReducer);
+  const { languages, token, login_loading } = useSelector((state) => state.authReducer);
   if(token) navigate('/')
 
   const [form, setForm] = useState({})
@@ -48,18 +49,7 @@ export const MainBox = ({ children, title }) => {
         <Text fontSize="30px">{title==="Login"?"Login":"Register"} here</Text>
         {children}
         <Flex>{title==="Login"?"Don't have any account?":"Already have an account?"} <Text color="blue"  _hover={{color:'green', cursor:'pointer'}} _active={{color:'red'}} onClick={()=>title==='Login'?navigate('/register'):navigate('/login')}> {title==="Login"?"Register here":"Login here"}</Text></Flex>
-        <input
-          type={'submit'}
-          value={title}
-          style={{
-            display: 'block',
-            margin: 'auto',
-            backgroundColor: '#2424ff',
-            color: 'white',
-            borderRadius: '6px',
-            padding: '5px 20px',
-          }}
-        />
+        <BTN loading={login_loading} title={title} />
       </form>
     </Flex>
   )

@@ -10,10 +10,9 @@ import { Gender } from '../../Assets/svg/Gender'
 import { DOB } from '../../Assets/svg/DOB'
 import { GridBox } from './GridBox'
 import { LanguageBox } from './LanguageBox'
+import { lan } from './lan'
 
 export const FormData = () => {
-  const lan = [ 'select language', 'Hindi', 'English', 'Tamil', 'Bangla', 'Kannada', 'Malyalam', 'Telugu', 'Urdu',
-]
   return (
     <>
       <ProfilePic />

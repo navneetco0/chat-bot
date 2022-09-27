@@ -1,4 +1,4 @@
-import { LOGIN_ERROR, LOGIN_LOADING, REMOVE_LANGUAGE, SET_LANGUAGES, USER_DATA } from "./action"
+import { LOGIN_ERROR, LOGIN_LOADING, LOGOUT_USER, REMOVE_LANGUAGE, SET_LANGUAGES, USER_DATA } from "./action"
 
 const init = {
    languages:[],
@@ -19,10 +19,13 @@ export const authReducer = (store=init, {type, payload})=>{
         case LOGIN_LOADING:
             return {...store, login_loading:true}
         case LOGIN_ERROR:
-            return {...store, login_loading:payload, login_error:true}
+            return {...store, login_loading:false, login_error:true}
         case USER_DATA:
-            if(payload.token) localStorage.setItem('ITG', payload.token)
-            return {...store, login_loading: false, login_error: null, token:payload.token, userData:payload}
+            if(payload.token&&!store.token) localStorage.setItem('ITG', payload.token)
+            return {...store, login_loading: false, login_error: null, token:payload.token, userData:payload, languages:payload.languages[0].split(',')}
+        case LOGOUT_USER:
+            localStorage.removeItem('ITG');
+            return {...store, token:null}
         default:
             return store
     }
