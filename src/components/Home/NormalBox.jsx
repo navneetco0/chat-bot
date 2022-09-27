@@ -1,6 +1,5 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react"
+import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react"
 import { useSelector } from "react-redux"
-import { useToast } from '@chakra-ui/react'
 
 export const NormalBox=({vis})=>{
   const toast = useToast();
@@ -8,8 +7,10 @@ export const NormalBox=({vis})=>{
     const handleTost=()=>{
         toast({
           position:'top',
-          title: `Thank you, We will connect with you shortly.`,
+          title: 'Thank you,',
+          description: "We'll connect with you shortly.",
           status: 'success',
+          duration: 9000,
           isClosable: true,
         })
     }

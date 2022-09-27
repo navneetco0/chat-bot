@@ -1,7 +1,5 @@
-import axios from 'axios';
-import io from 'socket.io-client'
-import { setChat } from '../Chat/action';
-const socket = io.connect('https://chatbot-na.herokuapp.com/')
+import axios from 'axios'
+import { getParticularChat, setChat } from '../Chat/action'
 
 export const SET_LANGUAGES = 'SET_LANGUAGES'
 export const REMOVE_LANGUAGE = 'REMOVE_LANGUAGE'
@@ -9,7 +7,7 @@ export const LOGIN_LOADING = 'LOGIN_LOADING'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
 export const USER_DATA = 'USER_DATA'
 export const LOGOUT_USER = 'LOGOUT_USER'
-export const UPDATE_USER = "UPDATE_USER"
+export const UPDATE_USER = 'UPDATE_USER'
 
 export const setLanguages = (payload) => ({ type: SET_LANGUAGES, payload })
 export const removeLanguage = (payload) => ({ type: REMOVE_LANGUAGE, payload })
@@ -32,7 +30,10 @@ export const registerUser = (form, languages) => (dispatch) => {
   formData.append('languages', languages)
   axios
     .post('https://chatbot-na.herokuapp.com/register', formData)
-    .then((res) => {dispatch(userData(res.data)); if(res.data.token) dispatch(getData(res.data.token))})
+    .then((res) => {
+      dispatch(userData(res.data))
+      if (res.data.token) dispatch(getData(res.data.token))
+    })
     .catch((error) => dispatch(loginError(error)))
 }
 
@@ -40,27 +41,36 @@ export const loginUser = (form) => (dispatch) => {
   dispatch(loginLoading())
   axios
     .post('https://chatbot-na.herokuapp.com/login', form)
-    .then((res) => dispatch(userData(res.data)))
+    .then((res) => {dispatch(userData(res.data)); dispatch(setChat(res.data.chats))})
     .catch((error) => dispatch(loginError(error)))
 }
 
 export const getData = (token) => (dispatch) => {
   dispatch(loginLoading())
   axios
-    .post('https://chatbot-na.herokuapp.com/',{}, {
+    .post(
+      'https://chatbot-na.herokuapp.com/',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+    .then((res) => {
+      dispatch(userData(res.data))
+      dispatch(getParticularChat({ id: res.data.id, token: token }))
+    })
+    .catch((error) => dispatch(loginError(error)))
+}
+
+export const updateUser = (data, token) => (dispatch) => {
+  axios
+    .patch('https://chatbot-na.herokuapp.com/', data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then((res) => {dispatch(userData(res.data)); socket.emit('welcome', (res.data.id)); socket.on(res.data.id, (msg)=>dispatch(setChat(msg)))})
-    .catch((error) => dispatch(loginError(error)))
-}
-
-export const updateUser = (data, token)=>(dispatch)=>{
-   axios.patch('https://chatbot-na.herokuapp.com/', data, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-  }).then(res=>console.log(res.data))
-  .catch(error=>console.log(error));
+    .then((res) => console.log(res.data))
+    .catch((error) => console.log(error))
 }
