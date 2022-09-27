@@ -1,8 +1,18 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react"
 import { useSelector } from "react-redux"
+import { useToast } from '@chakra-ui/react'
 
 export const NormalBox=({vis})=>{
-    const { chat } = useSelector((state) => state.chatReducer)
+  const toast = useToast();
+    const { chat } = useSelector((state) => state.chatReducer);
+    const handleTost=()=>{
+        toast({
+          position:'top',
+          title: `Thank you, We will connect with you shortly.`,
+          status: 'success',
+          isClosable: true,
+        })
+    }
     return (
         <Box
         h={vis?"calc(100vh - 70px)":"calc(100vh - 130px)"}
@@ -28,7 +38,7 @@ export const NormalBox=({vis})=>{
                 <Text>1 year: {Element.ans[0].year}</Text>
                 <Text>Renew: {Element.ans[0].Renew}</Text>
                 <Text>Transfer: {Element.ans[0].Transfer}</Text>
-                {!vis&&<Button colorScheme={'whatsapp'} display="block" m="10px auto">Contact Us</Button>}
+                {!vis&&<Button colorScheme={'whatsapp'} display="block" m="10px auto" onClick={()=>handleTost()}>Contact Us</Button>}
               </Box>:
               typeof(Element) === 'object' && index % 2 === 0 ? <Box>
                 <Text textAlign={'center'} borderBottom="1px solid gray" mb="10px" fontWeight={'500'}>{Element.text}</Text>
@@ -36,7 +46,7 @@ export const NormalBox=({vis})=>{
                   <Flex key={i} gap="10px" flexDir={!element.id?'column':'row'}>
                     <Text>{Element.ans.length>1&&(i + 1 + '.')}</Text>
                     <Text>{element.text}</Text>
-                    {!element.id&&!vis&&<Button colorScheme={'whatsapp'} display="block" m="10px auto">Contact Us</Button>}
+                    {!element.id&&!vis&&<Button colorScheme={'whatsapp'} display="block" m="10px auto" onClick={()=>handleTost()}>Contact Us</Button>}
                   </Flex>
                 ))}
               </Box> :
