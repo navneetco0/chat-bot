@@ -8,7 +8,7 @@ const init = {
 export const chatReducer = (store=init, {type, payload})=>{
     switch(type){
         case CHAT:
-            return {...store, chat:[...store.chat, payload]}
+            return {...store, chat:payload.chats}
         case SET_CONTACTS:
             return {...store, contacts:payload}
         default:

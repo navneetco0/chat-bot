@@ -1,5 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client'
+import { setChat } from '../Chat/action';
 const socket = io.connect('http://localhost:5000')
 
 export const SET_LANGUAGES = 'SET_LANGUAGES'
@@ -51,7 +52,7 @@ export const getData = (token) => (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then((res) => {dispatch(userData(res.data)); socket.emit('welcome', (res.data.id));})
+    .then((res) => {dispatch(userData(res.data)); socket.emit('welcome', (res.data.id)); socket.on(res.data.id, (msg)=>dispatch(setChat(msg)))})
     .catch((error) => dispatch(loginError(error)))
 }
 

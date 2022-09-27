@@ -1,25 +1,25 @@
 import { Box, Flex, Input } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { postChat, setChat } from '../../Redux/Chat/action'
+import { setChat } from '../../Redux/Chat/action'
 
 export const FormBox = ({ socket }) => {
   const dispatch = useDispatch()
-  const {token} = useSelector((state)=>state.authReducer);
+  const { userData} = useSelector((state)=>state.authReducer);
   const { chat } = useSelector((state) => state.chatReducer)
   const [option, setOption] = useState('')
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(setChat(option))
     if (typeof option === 'string' && option.toLowerCase() === 'menu') {
-      dispatch(setChat(chat[0]))
-      dispatch(postChat({ input: 'menu', id: '63318232de6272d98904af80', token:token }))
+      socket.emit('responce me', {option, chatId:'63318232de6272d98904af80', id:userData.id})
+      socket.on('63318232de6272d98904af80', (data) => dispatch(setChat(data)));
     } else {
+      console.log(userData.id)
       let chatId =
         chat[chat.length - 1]?.ans[option - 1]?.id || '93318232de6272d98904af80'
-      socket.emit('responce me', chatId)
+      socket.emit('responce me', {option,chatId, id:userData.id})
       socket.on(chatId, (data) => dispatch(setChat(data)));
-      dispatch(postChat({input:option, id:chatId, token:token}))
+      // dispatch(postChat({input:option, id:chatId, token:token}))
     }
     setOption('')
   }

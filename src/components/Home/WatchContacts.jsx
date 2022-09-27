@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { View } from '../../Assets/svg/View'
-import { getContacts } from '../../Redux/Chat/action'
+import { getContacts, getParticularChat } from '../../Redux/Chat/action'
 
 export const WatchContacts = () => {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ export const WatchContacts = () => {
                 <td>{Element.first_name} {Element.last_name}</td>
                 <td>{Element.phone}</td>
                 <td>{Element.email}</td>
-                <td onClick={()=>navigate('/show-chat')}><View/></td>
+                <td onClick={()=>{dispatch(getParticularChat({id:Element._id, token:token}));navigate('/show-chat')}}><View/></td>
             </tr>
           ))}
         </tbody>

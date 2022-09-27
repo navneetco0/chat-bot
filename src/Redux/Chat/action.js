@@ -15,9 +15,17 @@ export const getContacts = ({token})=>(dispatch)=>{
 }
 
 export const postChat = ({input, id, token})=>(dispatch)=>{
-  axios.post('http://localhost:5000/chats',{input, id}, {
+  // axios.post('http://localhost:5000/chats',{input, id}, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       }
+  //    }).then(res=>console.log(res)).catch(error=>console.log(error))
+}
+
+export const getParticularChat = ({id,token})=>(dispatch)=>{
+  axios.post('http://localhost:5000/chats',{id:id}, {
         headers: {
           Authorization: `Bearer ${token}`,
         }
-     }).then(res=>console.log(res)).catch(error=>console.log(error))
+     }).then(res=>dispatch(setChat(res.data))).catch(error=>console.log(error))
 }

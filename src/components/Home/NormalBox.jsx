@@ -1,13 +1,13 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react"
 import { useSelector } from "react-redux"
 
-export const NormalBox=()=>{
+export const NormalBox=({vis})=>{
     const { chat } = useSelector((state) => state.chatReducer)
     return (
         <Box
-        h="calc(100vh - 130px)"
+        h={vis?"calc(100vh - 70px)":"calc(100vh - 130px)"}
         w={['95%', '90%', '80%', '60%']}
-        m="auto"
+        m={vis?"70px auto 0px":"auto"}
         overflowY="scroll"
       >
         {chat &&
@@ -23,21 +23,23 @@ export const NormalBox=()=>{
             >
               {
               typeof(Element)==='object'&&Element?.ans?.[0]?.TLDs ?<Box>
+                <Text textAlign={'center'} borderBottom="1px solid gray" mb="10px" fontWeight={'500'}>{Element.text}</Text>
                 <Text>TLDs: {Element.ans[0].TLDs}</Text>
                 <Text>1 year: {Element.ans[0].year}</Text>
                 <Text>Renew: {Element.ans[0].Renew}</Text>
                 <Text>Transfer: {Element.ans[0].Transfer}</Text>
-                <Button colorScheme={'whatsapp'} display="block" m="10px auto">Contact Us</Button>
+                {!vis&&<Button colorScheme={'whatsapp'} display="block" m="10px auto">Contact Us</Button>}
               </Box>:
-              typeof(Element) === 'object' && index % 2 === 0 ? (
-                Element.ans.map((element, i) => (
+              typeof(Element) === 'object' && index % 2 === 0 ? <Box>
+                <Text textAlign={'center'} borderBottom="1px solid gray" mb="10px" fontWeight={'500'}>{Element.text}</Text>
+               { Element.ans.map((element, i) => (
                   <Flex key={i} gap="10px" flexDir={!element.id?'column':'row'}>
                     <Text>{Element.ans.length>1&&(i + 1 + '.')}</Text>
                     <Text>{element.text}</Text>
-                    {!element.id&&<Button colorScheme={'whatsapp'} display="block" m="10px auto">Contact Us</Button>}
+                    {!element.id&&!vis&&<Button colorScheme={'whatsapp'} display="block" m="10px auto">Contact Us</Button>}
                   </Flex>
-                ))
-              ) :
+                ))}
+              </Box> :
               (
                 <Box>
                   <Text>{typeof(Element)!=="object"&&Element}</Text>
