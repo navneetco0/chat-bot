@@ -2,11 +2,9 @@ import io from 'socket.io-client'
 import { NormalBox } from './NormalBox'
 import { FormBox } from './FormBox'
 import { Flex } from '@chakra-ui/react'
-const ENDPOINT = 'https://chatbot-na.herokuapp.com/';
-let socket;
+const socket = io.connect('https://chatbot-na.herokuapp.com/')
 
 export const Chat = () => {
-  socket=io(ENDPOINT);
   return (
     <Flex
       w="100%"
