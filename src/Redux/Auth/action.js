@@ -1,7 +1,7 @@
 import axios from 'axios';
 import io from 'socket.io-client'
 import { setChat } from '../Chat/action';
-const socket = io.connect('http://localhost:5000')
+const socket = io.connect('https://chatbot-na.herokuapp.com')
 
 export const SET_LANGUAGES = 'SET_LANGUAGES'
 export const REMOVE_LANGUAGE = 'REMOVE_LANGUAGE'
