@@ -1,4 +1,6 @@
-import axios from 'axios'
+import axios from 'axios';
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:5000')
 
 export const SET_LANGUAGES = 'SET_LANGUAGES'
 export const REMOVE_LANGUAGE = 'REMOVE_LANGUAGE'
@@ -49,7 +51,7 @@ export const getData = (token) => (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then((res) => dispatch(userData(res.data)))
+    .then((res) => {dispatch(userData(res.data)); socket.emit('welcome', (res.data.id));})
     .catch((error) => dispatch(loginError(error)))
 }
 
